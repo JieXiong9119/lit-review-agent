@@ -1,0 +1,7 @@
+---
+description: Persistent literature review agent — see AGENTS.md
+alwaysApply: true
+---
+
+The canonical agent spec for this repository is `AGENTS.md` at the repo root.
+Read it before doing anything else and follow it as your operating contract.

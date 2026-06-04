@@ -1,0 +1,29 @@
+# Per-project work is private by default. Commit explicitly with `git add -f`
+# if you intend to share a specific review.
+projects/*
+!projects/_example/
+!projects/_example/**
+!projects/.gitkeep
+
+# PDFs are never committed except inside the worked example. Copyrighted material
+# should not live in a public repo.
+*.pdf
+!projects/_example/**/*.pdf
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.env
+
+# Tool caches
+tools/.cache/
+.cache/
+
+# Editor / OS
+.DS_Store
+Thumbs.db
+.vscode/settings.json
+.idea/

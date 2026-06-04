@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/jxiong/lit-review-agent/agent/templates/catalog.schema.json",
+  "title": "Lit-review project catalog",
+  "type": "object",
+  "required": ["project", "generated", "entries"],
+  "properties": {
+    "project": {
+      "type": "string",
+      "description": "Project slug, matches the parent folder name."
+    },
+    "generated": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last write time, ISO 8601."
+    },
+    "entries": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/entry" }
+    }
+  },
+  "$defs": {
+    "entry": {
+      "type": "object",
+      "required": ["key", "title", "authors", "year", "status"],
+      "properties": {
+        "key": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+$",
+          "description": "Lowercase alphanumeric citation key, e.g., lewis2020rag."
+        },
+        "doi": { "type": ["string", "null"] },
+        "arxiv_id": { "type": ["string", "null"] },
+        "title": { "type": "string" },
+        "authors": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Full names, 'Last, First' preferred."
+        },
+        "year": { "type": "integer", "minimum": 1900, "maximum": 2100 },
+        "venue": { "type": ["string", "null"] },
+        "url": { "type": ["string", "null"], "format": "uri" },
+        "pdf_url": { "type": ["string", "null"], "format": "uri" },
+        "pdf_path": {
+          "type": ["string", "null"],
+          "description": "Path relative to the project folder, e.g., papers/lewis2020rag.pdf."
+        },
+        "summary_path": {
+          "type": ["string", "null"],
+          "description": "Path relative to the project folder, e.g., papers/lewis2020rag.md."
+        },
+        "tags": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "status": {
+          "type": "string",
+          "enum": ["pending", "summarized", "metadata-only", "pre-existing", "excluded"]
+        },
+        "include_reason": { "type": ["string", "null"] },
+        "exclude_reason": { "type": ["string", "null"] },
+        "source": {
+          "type": ["string", "null"],
+          "description": "Which backend surfaced this entry (arxiv, openalex, semantic_scholar, crossref, scholar, user, existing-work)."
+        },
+        "abstract": { "type": ["string", "null"] },
+        "added": { "type": ["string", "null"], "format": "date-time" }
+      },
+      "additionalProperties": false
+    }
+  }
+}

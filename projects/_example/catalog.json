@@ -1,0 +1,96 @@
+{
+  "project": "_example",
+  "generated": "2026-06-04T21:45:12+00:00",
+  "entries": [
+    {
+      "key": "gao2023ragsurvey",
+      "added": "2026-06-04T21:45:10+00:00",
+      "doi": "10.48550/arxiv.2312.10997",
+      "arxiv_id": "2312.10997",
+      "title": "Retrieval-Augmented Generation for Large Language Models: A Survey",
+      "authors": [
+        "Yunfan Gao",
+        "Yun Xiong",
+        "Xinyu Gao",
+        "Kangxiang Jia",
+        "Jinliu Pan",
+        "Yuxi Bi",
+        "Yi Dai",
+        "Jiawei Sun",
+        "Wang, Meng",
+        "Wang, Haofen"
+      ],
+      "year": 2023,
+      "venue": "arXiv (Cornell University)",
+      "url": "https://arxiv.org/abs/2312.10997",
+      "pdf_url": "https://arxiv.org/pdf/2312.10997",
+      "abstract": "Large Language Models (LLMs) showcase impressive capabilities but encounter challenges like hallucination, outdated knowledge, and non-transparent, untraceable reasoning processes. Retrieval-Augmented Generation (RAG) has emerged as a promising solution by incorporating knowledge from external databases. This enhances the accuracy and credibility of the generation, particularly for knowledge-intensive tasks, and allows for continuous knowledge updates and integration of domain-specific information. RAG synergistically merges LLMs' intrinsic knowledge with the vast, dynamic repositories of external databases. This comprehensive review paper offers a detailed examination of the progression of RAG paradigms, encompassing the Naive RAG, the Advanced RAG, and the Modular RAG. It meticulously scrutinizes the tripartite foundation of RAG frameworks, which includes the retrieval, the generation and the augmentation techniques. The paper highlights the state-of-the-art technologies embedded in each of these critical components, providing a profound understanding of the advancements in RAG systems. Furthermore, this paper introduces up-to-date evaluation framework and benchmark. At the end, this article delineates the challenges currently faced and points out prospective avenues for research and development.",
+      "source": "openalex",
+      "include_reason": "Comprehensive 2023 survey covering Naive/Advanced/Modular RAG paradigms.",
+      "tags": [
+        "rag",
+        "survey"
+      ],
+      "status": "pending",
+      "summary_path": "papers/gao2023ragsurvey.md"
+    },
+    {
+      "key": "jiang2023active",
+      "added": "2026-06-04T21:45:11+00:00",
+      "doi": "10.18653/v1/2023.emnlp-main.495",
+      "arxiv_id": null,
+      "title": "Active Retrieval Augmented Generation",
+      "authors": [
+        "Zhengbao Jiang",
+        "Frank F. Xu",
+        "Luyu Gao",
+        "Zhiqing Sun",
+        "Qian Liu",
+        "Jane Dwivedi-Yu",
+        "Yiming Yang",
+        "Jamie Callan",
+        "Graham Neubig"
+      ],
+      "year": 2023,
+      "venue": "EMNLP 2023",
+      "url": "https://aclanthology.org/2023.emnlp-main.495/",
+      "pdf_url": "https://aclanthology.org/2023.emnlp-main.495.pdf",
+      "abstract": "Zhengbao Jiang, Frank Xu, Luyu Gao, Zhiqing Sun, Qian Liu, Jane Dwivedi-Yu, Yiming Yang, Jamie Callan, Graham Neubig. Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing. 2023.",
+      "source": "openalex",
+      "include_reason": "Introduces active retrieval triggered by token-level uncertainty.",
+      "tags": [
+        "rag",
+        "active-retrieval"
+      ],
+      "status": "pending",
+      "summary_path": "papers/jiang2023active.md"
+    },
+    {
+      "key": "chen2024rgb",
+      "added": "2026-06-04T21:45:12+00:00",
+      "doi": "10.1609/aaai.v38i16.29728",
+      "arxiv_id": null,
+      "title": "Benchmarking Large Language Models in Retrieval-Augmented Generation",
+      "authors": [
+        "Jiawei Chen",
+        "Hongyu Lin",
+        "Xianpei Han",
+        "Le Sun"
+      ],
+      "year": 2024,
+      "venue": "Proceedings of the AAAI Conference on Artificial Intelligence",
+      "url": "https://ojs.aaai.org/index.php/AAAI/article/view/29728",
+      "pdf_url": "https://ojs.aaai.org/index.php/AAAI/article/download/29728/31250",
+      "abstract": "Retrieval-Augmented Generation (RAG) is a promising approach for mitigating the hallucination of large language models (LLMs). However, existing research lacks rigorous evaluation of the impact of retrieval-augmented generation on different large language models, which make it challenging to identify the potential bottlenecks in the capabilities of RAG for different LLMs. In this paper, we systematically investigate the impact of Retrieval-Augmented Generation on large language models. We analyze the performance of different large language models in 4 fundamental abilities required for RAG, including noise robustness, negative rejection, information integration, and counterfactual robustness. To this end, we establish Retrieval-Augmented Generation Benchmark (RGB), a new corpus for RAG evaluation in both English and Chinese. RGB divides the instances within the benchmark into 4 separate testbeds based on the aforementioned fundamental abilities required to resolve the case. Then we evaluate 6 representative LLMs on RGB to diagnose the challenges of current LLMs when applying RAG. Evaluation reveals that while LLMs exhibit a certain degree of noise robustness, they still struggle significantly in terms of negative rejection, information integration, and dealing with false information. The aforementioned assessment outcomes indicate that there is still a considerable journey ahead to effectively apply RAG to LLMs.",
+      "source": "openalex",
+      "include_reason": "RGB benchmark isolating noise robustness, negative rejection, integration, counterfactual robustness.",
+      "tags": [
+        "rag",
+        "evaluation",
+        "benchmark"
+      ],
+      "status": "pending",
+      "summary_path": "papers/chen2024rgb.md"
+    }
+  ]
+}
