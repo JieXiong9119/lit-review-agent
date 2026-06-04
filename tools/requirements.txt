@@ -1,5 +1,12 @@
 requests>=2.31
+# pypdf is the guaranteed-available PDF extractor fallback.
 pypdf>=4.0
 # Optional but strongly recommended: use the OS certificate trust store so
 # corporate SSL-intercepting proxies work without manual CA configuration.
 truststore>=0.9; python_version >= "3.10"
+# Optional PDF extraction backends (auto-selected by pdf_to_text.py when present).
+# PyMuPDF (AGPL) gives substantially better text order on two-column scientific
+# PDFs and is the recommended default for research use. pdfplumber (MIT) is a
+# table-aware alternative if AGPL is a concern.
+pymupdf>=1.24
+# pdfplumber>=0.11   # uncomment if you prefer MIT-only deps

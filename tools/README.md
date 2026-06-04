@@ -51,7 +51,7 @@ Every `search_*.py` emits a JSON list of records with these fields:
 | `search_crossref.py` | CrossRef. Supports both query and `--doi` single-record fetch. |
 | `search_scholar.py` | Google Scholar via SerpAPI (requires key). |
 | `fetch_pdf.py` | Download a PDF by catalog key (uses `catalog.json`) or direct URL. |
-| `pdf_to_text.py` | Extract text via `pypdf` for agent reading. |
+| `pdf_to_text.py` | Extract text from a PDF. Auto-selects the best available backend (PyMuPDF → pdfplumber → pypdf); force one with `--backend`. |
 | `catalog.py` | `init / add / list / get / dedupe / validate` over `catalog.json`. |
 | `build_bib.py` | Render `references.bib` from `catalog.json`; with `--only-cited`, only the keys that appear in a draft. |
 
@@ -63,6 +63,23 @@ Every `search_*.py` emits a JSON list of records with these fields:
 - Network scripts honor `User-Agent: lit-review-agent/0.1` and a 30-second
   timeout, and never retry silently — failures bubble up so the agent can decide.
 - Catalog writes are atomic (write temp file → `os.replace`).
+
+## PDF extraction backends
+
+`pdf_to_text.py` supports three backends and picks the first that imports
+successfully (in this order):
+
+| Backend | Why use it | License | Strength |
+|---|---|---|---|
+| `pymupdf` (`fitz`) | Default when installed. | AGPL | Best reading-order recovery for two-column scientific PDFs; fast. |
+| `pdfplumber` | MIT alternative. | MIT | Decent layout, table-aware. |
+| `pypdf` | Guaranteed fallback. | BSD-3 | Simple, but often scrambles two-column layouts. |
+
+Force a specific backend with `--backend pymupdf|pdfplumber|pypdf`. The
+script prints which backend it used to stderr so the choice is auditable.
+
+If you want to stay MIT-only, remove `pymupdf` from `requirements.txt`,
+uncomment `pdfplumber`, and re-install.
 
 ## Smoke test
 
