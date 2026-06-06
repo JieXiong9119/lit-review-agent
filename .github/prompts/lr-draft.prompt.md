@@ -24,4 +24,12 @@ Run [phase 6 — draft](../../agent/workflows/6-draft.md).
    If the script reports missing keys, fix the draft — do not paper over it by
    adding fake catalog entries.
 5. Append a `phase=draft … status=delivered` entry to `decisions.md`.
-6. Present both files for user review.
+6. Present `lit-review.md` and `references.bib` for user review.
+7. After the draft is accepted, build the citation map.
+   Write `projects/<slug>/cite-map.md` from
+   [agent/templates/cite-map.md](../../agent/templates/cite-map.md): partition
+   every catalog entry into "cited in lit-review" vs "deferred to another
+   section" (§1 Intro, §3 Methodology, §4 Results, §5 Discussion,
+   §6 Program landscape, appendix, figure caption) with a proposed home for
+   each deferred row. Re-append the `decisions.md` entry to include
+   `cite_map_deferred=<D>`. Present the map for user review.

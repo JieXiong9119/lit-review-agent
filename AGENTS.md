@@ -29,7 +29,7 @@ before executing a phase.
 | 3 | Search | [agent/workflows/3-search.md](agent/workflows/3-search.md) | raw hits appended to `decisions.md` |
 | 4 | Acquire & index | [agent/workflows/4-acquire-index.md](agent/workflows/4-acquire-index.md) | `papers/*.md`, `catalog.json` |
 | 5 | Synthesize | [agent/workflows/5-synthesize.md](agent/workflows/5-synthesize.md) | `synthesis.md` |
-| 6 | Draft | [agent/workflows/6-draft.md](agent/workflows/6-draft.md) | `lit-review.md`, `references.bib` |
+| 6 | Draft | [agent/workflows/6-draft.md](agent/workflows/6-draft.md) | `lit-review.md`, `references.bib`, `cite-map.md` |
 
 You may iterate: discoveries during phase 5 often trigger a return to phase 3.
 Record every such loop in `decisions.md`.
@@ -62,7 +62,8 @@ projects/<slug>/
 │   └── <key>.pdf       # gitignored by default
 ├── catalog.json        # indexed, queryable list (schema: agent/templates/catalog.schema.json)
 ├── synthesis.md        # themes, gaps, comparison matrix, conflicts
-├── lit-review.md       # draft prose section
+├── lit-review.md       # draft prose section for §2 Related Work
+├── cite-map.md         # partition of catalog into cited-in-lit-review vs deferred-to-other-sections, with proposed home for each deferred entry
 ├── references.bib      # BibTeX companion, generated from catalog.json
 └── decisions.md        # chronological audit trail of searches, includes, excludes
 ```

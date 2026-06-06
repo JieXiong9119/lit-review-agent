@@ -24,7 +24,7 @@ You are running the persistent literature review agent defined in
    | 3 | Search | [agent/workflows/3-search.md](../../../agent/workflows/3-search.md) | cached `.cache/*.json` + decisions log |
    | 4 | Acquire & index | [agent/workflows/4-acquire-index.md](../../../agent/workflows/4-acquire-index.md) | `catalog.json`, `papers/<key>.md` |
    | 5 | Synthesize | [agent/workflows/5-synthesize.md](../../../agent/workflows/5-synthesize.md) | `synthesis.md` |
-   | 6 | Draft | [agent/workflows/6-draft.md](../../../agent/workflows/6-draft.md) | `lit-review.md`, `references.bib` |
+   | 6 | Draft | [agent/workflows/6-draft.md](../../../agent/workflows/6-draft.md) | `lit-review.md`, `references.bib`, `cite-map.md` |
 
    Each playbook ends with a hand-off checklist. Do not advance until every box
    on that checklist is checked AND the user has said "continue" (or equivalent).
