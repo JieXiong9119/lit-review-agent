@@ -51,6 +51,11 @@ Use the buckets that make sense for the project. Suggested buckets to cover:
    possible drop.
 7. **Already cited in `lit-review.md`** — listed for completeness; no action
    required from the section writer.
+8. **Out-of-scope retirements** — entries that passed the phase-4 keyword sift
+   but on closer inspection are out of scope for the lit-review. Each row
+   gets a one-line `exclude_reason`. **Apply** to `catalog.json` via
+   `tools/catalog.py update --status excluded --exclude-reason "..."`
+   (workflow step 9). Once applied, mark this bucket `[APPLIED <date>]`.
 
 ---
 
@@ -99,6 +104,25 @@ Suggested single-paragraph cite pattern:
 
 | Key | Where it appears in `lit-review.md` |
 |---|---|
+
+## Bucket 8 — Out-of-scope retirements (apply to `catalog.json` via `tools/catalog.py update`)
+
+| Key | Title | Out-of-scope reason (becomes `exclude_reason`) |
+|---|---|---|
+
+Apply once the user confirms the retirements:
+
+```powershell
+python tools/catalog.py update --project projects/<slug> `
+    --key <key> `
+    --status excluded `
+    --exclude-reason "<reason from table>"
+# For >2–3 keys, wrap in projects/<slug>/.cache/apply_retirements.py
+```
+
+After apply: re-run `tools/catalog.py validate`, re-run
+`tools/build_bib.py --only-cited` (entry count should not change), and mark
+this bucket heading `[APPLIED <YYYY-MM-DD>]`.
 
 ---
 

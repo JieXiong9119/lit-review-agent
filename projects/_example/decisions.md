@@ -23,4 +23,8 @@ to avoid bundling third-party PDFs in the repo).
 phase=synthesize n_themes=3 n_conflicts=0 n_gaps=2 matrix_rows=3
 
 ## 2026-06-04 — phase 6 (draft)
-phase=draft words=330 citations=3 bib_entries=3 status=delivered
+phase=draft words=330 citations=3 bib_entries=3 cite_map_deferred=0 cite_map_excluded=0 status=delivered
+
+Cite-map (step 8) is trivial for this example: all 3 catalog entries are cited
+in `lit-review.md`, no deferred entries, no retirements. See
+[cite-map.md](cite-map.md).

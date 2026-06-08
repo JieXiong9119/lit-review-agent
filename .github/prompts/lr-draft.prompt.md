@@ -31,5 +31,12 @@ Run [phase 6 — draft](../../agent/workflows/6-draft.md).
    every catalog entry into "cited in lit-review" vs "deferred to another
    section" (§1 Intro, §3 Methodology, §4 Results, §5 Discussion,
    §6 Program landscape, appendix, figure caption) with a proposed home for
-   each deferred row. Re-append the `decisions.md` entry to include
-   `cite_map_deferred=<D>`. Present the map for user review.
+   each deferred row, plus an optional retirement bucket for entries that are
+   out-of-scope on closer inspection. Present the map for user review.
+8. If the user confirms any retirements, apply them via
+   `tools/catalog.py update --status excluded --exclude-reason "..."` (do not
+   hand-edit `catalog.json`). For more than 2–3 keys, wrap in
+   `projects/<slug>/.cache/apply_retirements.py`. Re-run
+   `tools/catalog.py validate` and `tools/build_bib.py --only-cited`.
+9. Re-append the `decisions.md` entry to include `cite_map_deferred=<D>`
+   and `cite_map_excluded=<E>`.

@@ -111,6 +111,12 @@ def main(argv: list[str] | None = None) -> int:
     catalog = read_json(proj / "catalog.json")
     entries = catalog.get("entries", [])
 
+    # Always drop retired entries: status='excluded' should never appear in any bib.
+    excluded_count = sum(1 for e in entries if e.get("status") == "excluded")
+    if excluded_count:
+        entries = [e for e in entries if e.get("status") != "excluded"]
+        sys.stderr.write(f"Skipped {excluded_count} excluded entries.\n")
+
     if args.only_cited:
         draft = Path(args.only_cited)
         if not draft.exists():

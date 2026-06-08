@@ -86,14 +86,38 @@ an entry in `catalog.json`.
    the union of "cited in lit-review" + "deferred" + `status=excluded` keys
    should equal the catalog total.
 
-9. **Close out.** Append to `decisions.md`:
+9. **Apply any flagged retirements.** If step 8 surfaced entries that are
+   out-of-scope on closer inspection (the cite-map template's retirement
+   bucket — typically the last bucket), apply them to `catalog.json` via
+   the sanctioned tool path. Do **not** hand-edit `catalog.json`.
 
-   ```
-   phase=draft words=<N> citations=<C> bib_entries=<C> cite_map_deferred=<D> status=delivered
+   ```powershell
+   python tools/catalog.py update --project projects/<slug> `
+       --key <key> `
+       --status excluded `
+       --exclude-reason "<one-line reason>"
    ```
 
-   Add a "Reproduction" footer to `lit-review.md` listing the date and the
-   commands needed to regenerate `references.bib` from `catalog.json`.
+   For more than two or three keys, wrap the calls in a one-shot helper
+   under `projects/<slug>/.cache/apply_retirements.py` (project-local, per
+   AGENTS.md §8). After apply:
+
+   - Re-run `python tools/catalog.py validate --project projects/<slug>`.
+   - Re-run the `build_bib.py --only-cited` command from step 5 and confirm
+     the bib entry count is unchanged (retired keys should not be cited).
+   - Update the retirement bucket in `cite-map.md` to mark it `[APPLIED <date>]`.
+
+   If nothing was flagged, skip this step and note `cite_map_excluded=0` in
+   the close-out entry.
+
+10. **Close out.** Append to `decisions.md`:
+
+    ```
+    phase=draft words=<N> citations=<C> bib_entries=<C> cite_map_deferred=<D> cite_map_excluded=<E> status=delivered
+    ```
+
+    Add a "Reproduction" footer to `lit-review.md` listing the date and the
+    commands needed to regenerate `references.bib` from `catalog.json`.
 
 ---
 
@@ -105,5 +129,6 @@ an entry in `catalog.json`.
 - [ ] No citation appears in the bib without appearing in the draft, and vice versa.
 - [ ] `cite-map.md` accounts for every catalog entry (cited ∪ deferred ∪ excluded = catalog total).
 - [ ] Every deferred entry in `cite-map.md` has a proposed home (§, role).
-- [ ] `decisions.md` ends with a delivery entry that includes `cite_map_deferred=<D>`.
+- [ ] Any retirement bucket in `cite-map.md` has been applied to `catalog.json` via `tools/catalog.py update` (or explicitly deferred with a written note in `decisions.md`).
+- [ ] `decisions.md` ends with a delivery entry that includes `cite_map_deferred=<D>` and `cite_map_excluded=<E>`.
 - [ ] The user has explicitly accepted the draft and the citation map.

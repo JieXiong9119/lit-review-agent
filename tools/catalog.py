@@ -3,6 +3,7 @@
 Subcommands:
     init       Create an empty catalog for a project.
     add        Add or update an entry, optionally pulling from a search result JSON.
+    update     Update one or more fields on an existing entry (in-place; does not touch `added`).
     list       Print catalog entries (filterable).
     get        Print a single entry as JSON.
     dedupe     Merge duplicate entries by DOI / arXiv id / normalized title.
@@ -13,6 +14,8 @@ Examples:
     python tools/catalog.py add --project projects/<slug> --key lewis2020rag \\
         --from-json projects/<slug>/.cache/arxiv-q1.json --match-doi 10.48550/arXiv.2005.11401 \\
         --status pending --include-reason "Foundational RAG architecture."
+    python tools/catalog.py update --project projects/<slug> --key foo2024bar \\
+        --status excluded --exclude-reason "Out of scope: residential only."
     python tools/catalog.py list --project projects/<slug> --status summarized
     python tools/catalog.py dedupe --project projects/<slug>
 """
@@ -125,6 +128,66 @@ def cmd_add(args: argparse.Namespace) -> int:
         sys.stderr.write(f"Added entry {args.key}.\n")
 
     _save(proj, catalog)
+    return 0
+
+
+UPDATABLE_FIELDS = (
+    "title", "venue", "url", "pdf_url", "pdf_path", "summary_path",
+    "include_reason", "exclude_reason", "source", "abstract", "doi", "arxiv_id",
+)
+
+
+def cmd_update(args: argparse.Namespace) -> int:
+    """Update fields on an existing entry. Preserves `added`; sets `modified` to now."""
+    proj = Path(args.project)
+    catalog = _load(proj)
+    entries = catalog["entries"]
+    idx = next((i for i, e in enumerate(entries) if e.get("key") == args.key), None)
+    if idx is None:
+        sys.stderr.write(f"Key {args.key!r} not found. Use `add` to create.\n")
+        return 1
+
+    entry = entries[idx]
+    changed: list[str] = []
+
+    if args.status:
+        if args.status not in VALID_STATUS:
+            sys.stderr.write(f"Invalid status. Allowed: {sorted(VALID_STATUS)}\n")
+            return 1
+        if entry.get("status") != args.status:
+            entry["status"] = args.status
+            changed.append("status")
+
+    if args.year is not None:
+        if entry.get("year") != args.year:
+            entry["year"] = args.year
+            changed.append("year")
+
+    if args.authors:
+        entry["authors"] = args.authors
+        changed.append("authors")
+
+    if args.tags:
+        entry["tags"] = args.tags
+        changed.append("tags")
+
+    for fld in UPDATABLE_FIELDS:
+        val = getattr(args, fld, None)
+        if val is None:
+            continue
+        normalized = normalize_doi(val) if fld == "doi" else val
+        if entry.get(fld) != normalized:
+            entry[fld] = normalized
+            changed.append(fld)
+
+    if not changed:
+        sys.stderr.write(f"No changes for {args.key}.\n")
+        return 0
+
+    entry["modified"] = _now()
+    entries[idx] = entry
+    _save(proj, catalog)
+    sys.stderr.write(f"Updated {args.key}: {', '.join(changed)}.\n")
     return 0
 
 
@@ -290,6 +353,27 @@ def build_parser() -> argparse.ArgumentParser:
     sp.add_argument("--source")
     sp.add_argument("--abstract")
     sp.set_defaults(func=cmd_add)
+
+    sp = sub.add_parser("update", help="Update fields on an existing entry in place.")
+    sp.add_argument("--project", required=True)
+    sp.add_argument("--key", required=True)
+    sp.add_argument("--status", choices=sorted(VALID_STATUS))
+    sp.add_argument("--title")
+    sp.add_argument("--authors", nargs="+")
+    sp.add_argument("--year", type=int)
+    sp.add_argument("--venue")
+    sp.add_argument("--doi")
+    sp.add_argument("--arxiv-id", dest="arxiv_id")
+    sp.add_argument("--url")
+    sp.add_argument("--pdf-url", dest="pdf_url")
+    sp.add_argument("--pdf-path", dest="pdf_path")
+    sp.add_argument("--summary-path", dest="summary_path")
+    sp.add_argument("--tags", nargs="+")
+    sp.add_argument("--include-reason", dest="include_reason")
+    sp.add_argument("--exclude-reason", dest="exclude_reason")
+    sp.add_argument("--source")
+    sp.add_argument("--abstract")
+    sp.set_defaults(func=cmd_update)
 
     sp = sub.add_parser("list", help="List catalog entries.")
     sp.add_argument("--project", required=True)

@@ -38,4 +38,4 @@ phase=synthesize n_themes=4 n_conflicts=2 n_gaps=3 matrix_rows=22
 
 ## <YYYY-MM-DD> — phase 6 (draft)
 
-phase=draft words=1180 citations=22 bib_entries=22 status=delivered
+phase=draft words=1180 citations=22 bib_entries=22 cite_map_deferred=<D> cite_map_excluded=<E> status=delivered

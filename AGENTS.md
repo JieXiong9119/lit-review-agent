@@ -89,10 +89,17 @@ hallucination. Invoke the matching script via the terminal:
 | Google Scholar (SerpAPI key required) | [tools/search_scholar.py](tools/search_scholar.py) |
 | Download a PDF | [tools/fetch_pdf.py](tools/fetch_pdf.py) |
 | Extract text from a PDF | [tools/pdf_to_text.py](tools/pdf_to_text.py) |
-| Manage the catalog | [tools/catalog.py](tools/catalog.py) |
+| Manage the catalog (`init` / `add` / `update` / `list` / `get` / `dedupe` / `validate`) | [tools/catalog.py](tools/catalog.py) |
 | Render BibTeX from catalog | [tools/build_bib.py](tools/build_bib.py) |
 
 Setup: `pip install -r tools/requirements.txt` (one-time per environment).
+
+Use `tools/catalog.py update` (not hand-edits) to change fields on an existing
+entry. Phase 6 in particular uses it to mark out-of-scope catalog entries as
+`status: excluded` with a one-line `exclude_reason` once they are flagged in
+`cite-map.md`. Excluded entries are retained in the audit trail but are dropped
+from `references.bib` by both `--only-cited` and the defensive filter in
+`build_bib.py`.
 
 **Reasoning-heavy work → follow the workflow playbook + rubric.**
 Intake interviewing, scope decisions, per-paper summarization, theme synthesis,

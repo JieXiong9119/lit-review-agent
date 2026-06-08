@@ -52,8 +52,8 @@ Every `search_*.py` emits a JSON list of records with these fields:
 | `search_scholar.py` | Google Scholar via SerpAPI (requires key). |
 | `fetch_pdf.py` | Download a PDF by catalog key (uses `catalog.json`) or direct URL. |
 | `pdf_to_text.py` | Extract text from a PDF. Auto-selects the best available backend (PyMuPDF → pdfplumber → pypdf); force one with `--backend`. |
-| `catalog.py` | `init / add / list / get / dedupe / validate` over `catalog.json`. |
-| `build_bib.py` | Render `references.bib` from `catalog.json`; with `--only-cited`, only the keys that appear in a draft. |
+| `catalog.py` | `init / add / update / list / get / dedupe / validate` over `catalog.json`. Use `update` (not hand-edits) to change fields on an existing entry — e.g. mark a phase-6 cite-map retirement as `--status excluded --exclude-reason "..."`. |
+| `build_bib.py` | Render `references.bib` from `catalog.json`; with `--only-cited`, only the keys that appear in a draft. Always drops entries with `status: excluded` so retirements never leak into the bib. |
 
 ## Conventions
 
@@ -96,6 +96,12 @@ python tools/catalog.py add --project projects/_smoketest --key lewis2020rag `
     --match-title "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks" `
     --status summarized --tags retrieval rag
 python tools/catalog.py list --project projects/_smoketest
+
+# Retire an entry (mark as excluded with a reason)
+python tools/catalog.py update --project projects/_smoketest --key lewis2020rag `
+    --status excluded --exclude-reason "out of scope for smoketest demo"
+python tools/catalog.py validate --project projects/_smoketest
+
 python tools/build_bib.py --project projects/_smoketest --out projects/_smoketest/references.bib
 ```
 
