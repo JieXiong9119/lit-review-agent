@@ -13,13 +13,19 @@ an entry in `catalog.json`.
 **Outputs.**
 - `projects/<slug>/lit-review.md` (template:
   [agent/templates/lit-review.md](../templates/lit-review.md)).
-- `projects/<slug>/references.bib` (generated, not hand-edited).
+- `projects/<slug>/references.bib` (generated, not hand-edited; only the keys
+  cited in `lit-review.md`).
 - `projects/<slug>/cite-map.md` (template:
   [agent/templates/cite-map.md](../templates/cite-map.md)) — partitions every
   catalog entry into "cited in lit-review" vs "deferred to another section of
   the user's paper," with a proposed home for each deferred entry. Prevents
   silent abandonment of catalogued literature that does not fit the §2
   Related-Work narrative.
+- `projects/<slug>/cite-map.bib` (generated, not hand-edited) — BibTeX
+  companion for `cite-map.md` containing every non-excluded catalog entry
+  (cited + deferred). Lets the §1 / §3 / §4 / §5 / §6 writers `\cite{...}` any
+  deferred row without re-resolving metadata. Excluded entries are dropped
+  automatically by `build_bib.py`.
 
 ---
 
@@ -86,6 +92,18 @@ an entry in `catalog.json`.
    the union of "cited in lit-review" + "deferred" + `status=excluded` keys
    should equal the catalog total.
 
+   **Also emit the companion `cite-map.bib`** — a BibTeX file covering every
+   non-excluded entry (cited + deferred), so non-§2 section writers can
+   `\cite{...}` any deferred row directly:
+
+   ```powershell
+   python tools/build_bib.py --project projects/<slug> `
+       --out projects/<slug>/cite-map.bib
+   ```
+
+   `build_bib.py` always drops `status: excluded` entries, so retired keys
+   never leak into either bib.
+
 9. **Apply any flagged retirements.** If step 8 surfaced entries that are
    out-of-scope on closer inspection (the cite-map template's retirement
    bucket — typically the last bucket), apply them to `catalog.json` via
@@ -105,6 +123,8 @@ an entry in `catalog.json`.
    - Re-run `python tools/catalog.py validate --project projects/<slug>`.
    - Re-run the `build_bib.py --only-cited` command from step 5 and confirm
      the bib entry count is unchanged (retired keys should not be cited).
+   - **Regenerate `cite-map.bib`** so it reflects the new excluded set:
+     `python tools/build_bib.py --project projects/<slug> --out projects/<slug>/cite-map.bib`.
    - Update the retirement bucket in `cite-map.md` to mark it `[APPLIED <date>]`.
 
    If nothing was flagged, skip this step and note `cite_map_excluded=0` in
@@ -128,6 +148,7 @@ an entry in `catalog.json`.
 - [ ] `references.bib` parses cleanly (the build script validates this).
 - [ ] No citation appears in the bib without appearing in the draft, and vice versa.
 - [ ] `cite-map.md` accounts for every catalog entry (cited ∪ deferred ∪ excluded = catalog total).
+- [ ] `cite-map.bib` exists and its entry count equals (catalog total − excluded).
 - [ ] Every deferred entry in `cite-map.md` has a proposed home (§, role).
 - [ ] Any retirement bucket in `cite-map.md` has been applied to `catalog.json` via `tools/catalog.py update` (or explicitly deferred with a written note in `decisions.md`).
 - [ ] `decisions.md` ends with a delivery entry that includes `cite_map_deferred=<D>` and `cite_map_excluded=<E>`.

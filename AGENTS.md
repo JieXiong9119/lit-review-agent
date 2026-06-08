@@ -64,7 +64,8 @@ projects/<slug>/
 ├── synthesis.md        # themes, gaps, comparison matrix, conflicts
 ├── lit-review.md       # draft prose section for §2 Related Work
 ├── cite-map.md         # partition of catalog into cited-in-lit-review vs deferred-to-other-sections, with proposed home for each deferred entry
-├── references.bib      # BibTeX companion, generated from catalog.json
+├── references.bib      # BibTeX companion for `lit-review.md` (only-cited; generated from catalog.json)
+├── cite-map.bib        # BibTeX companion for `cite-map.md` (all non-excluded entries; generated from catalog.json)
 └── decisions.md        # chronological audit trail of searches, includes, excludes
 ```
 

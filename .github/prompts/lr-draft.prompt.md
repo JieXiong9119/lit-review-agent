@@ -37,15 +37,23 @@ mirrors the workflow playbook.
    section" (§1 Intro, §3 Methodology, §4 Results, §5 Discussion,
    §6 Program landscape, appendix, figure caption) with a proposed home for
    each deferred row, plus an optional retirement bucket for entries that are
-   out-of-scope on closer inspection. Present the map for user review.
+   out-of-scope on closer inspection. Also emit `projects/<slug>/cite-map.bib`
+   covering every non-excluded entry:
+
+   ```powershell
+   python tools/build_bib.py --project projects/<slug> `
+       --out projects/<slug>/cite-map.bib
+   ```
+
+   Present the map (and the companion bib's entry count) for user review.
 9. If the user confirms any retirements, apply them via
    `tools/catalog.py update --status excluded --exclude-reason "..."` (do not
    hand-edit `catalog.json`). For more than 2–3 keys, wrap in
    `projects/<slug>/.cache/apply_retirements.py`. Re-run
-   `tools/catalog.py validate` and `tools/build_bib.py --only-cited` (entry
-   count should not change). Mark the retirement bucket in `cite-map.md`
-   `[APPLIED <YYYY-MM-DD>]`. If nothing was flagged, skip and record
-   `cite_map_excluded=0`.
+   `tools/catalog.py validate`, `tools/build_bib.py --only-cited` (entry count
+   should not change), and regenerate `cite-map.bib` so retirements drop out.
+   Mark the retirement bucket in `cite-map.md` `[APPLIED <YYYY-MM-DD>]`. If
+   nothing was flagged, skip and record `cite_map_excluded=0`.
 10. Close out: append a single delivery entry to `decisions.md`:
 
     ```

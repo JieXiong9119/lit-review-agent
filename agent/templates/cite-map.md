@@ -23,9 +23,19 @@
 - Catalog entries total: `<T>`
 - Cited in `lit-review.md`: `<C_lit>`
 - Deferred to other sections: `<C_def>`
-- Excluded earlier (status `excluded` in catalog): `<C_exc>`
+- Excluded (status `excluded` in catalog): `<C_exc>`
 
 `<C_lit>` + `<C_def>` + `<C_exc>` should equal `<T>` (sanity check).
+
+**Companion BibTeX files.**
+- `references.bib` (`<C_lit>` entries) — only the keys cited in `lit-review.md`;
+  merge into the host paper's §2 bib.
+- `cite-map.bib` (`<T> − <C_exc>` entries) — every non-excluded catalog entry
+  (cited + deferred); use this when drafting §1 / §3 / §4 / §5 / §6 so any
+  deferred row in the buckets below can be `\cite{...}`d without re-resolving
+  metadata. Regenerate with
+  `python tools/build_bib.py --project projects/<slug> --out projects/<slug>/cite-map.bib`
+  (excluded entries are dropped automatically).
 
 ---
 
